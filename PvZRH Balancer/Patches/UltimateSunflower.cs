@@ -42,7 +42,7 @@ namespace PvZRH_Balancer.Patches
 
                 // Capacity is 4x or unlimited the attackDamage
                 bool hasBuff = Lawnf.TravelUltimate((UltiBuff)39);
-                int maxCap = hasBuff ? int.MaxValue - 10000 : __instance.attackDamage * 4;
+                int maxCap = hasBuff ? 2_000_000_000 : __instance.attackDamage * 4;
 
                 if (__instance.attributeCount > maxCap)
                 {
