@@ -27,9 +27,13 @@ namespace PvZRH_Balancer.Patches
          * 
          * We use the setDoomBaseDamage to track if the charred damage was called
          * by Ultimate CobCannon's bullet.
+         * 
+         * We also used a isProcessingCharred falg to fix a double trigger bug
+         * which caused 16x damage instead of 4x
          */
 
         [ThreadStatic] private static int setDoomBaseDamage = -1;
+        [ThreadStatic] private static bool isProcessingCharred = false;
 
         [HarmonyPatch(typeof(BoardAction), nameof(BoardAction.SetDoom))]
         public static class BoardAction_SetDoom
@@ -45,7 +49,11 @@ namespace PvZRH_Balancer.Patches
             }
 
             [HarmonyPostfix]
-            public static void Postfix() => setDoomBaseDamage = -1;
+            public static void Postfix() 
+            { 
+                setDoomBaseDamage = -1;
+                isProcessingCharred = false;
+            }
         }
 
         // Scale the 30% Max HP portion to 120%
@@ -58,10 +66,19 @@ namespace PvZRH_Balancer.Patches
                 // The damage pased in this functions is:
                 // damage = (Zombie.theFirstArmorHealth) * 0.3 + Doom_damage 
 
-                if (setDoomBaseDamage >= 0)
+                if (setDoomBaseDamage >= 0 && !isProcessingCharred)
                 {
+                    isProcessingCharred = true;
+
                     damage = (damage - setDoomBaseDamage) * 4 + setDoomBaseDamage;
+                    MelonLoader.MelonLogger.Msg(damage);
                 }
+            }
+
+            [HarmonyPostfix]
+            public static void Postfix()
+            {
+                isProcessingCharred = false;
             }
         }
     }
