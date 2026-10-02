@@ -1,3 +1,7 @@
 <Solution>
+  <Configurations>
+    <BuildType Name="BEPINEX" />
+    <BuildType Name="MELONLOADER" />
+  </Configurations>
   <Project Path="PvZRH Balancer/PvZRH Balancer.csproj" />
 </Solution>

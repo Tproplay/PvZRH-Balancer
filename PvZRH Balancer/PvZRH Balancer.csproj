@@ -5,6 +5,63 @@
     <RootNamespace>PvZRH_Balancer</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>MELONLOADER;BEPINEX</Configurations>
   </PropertyGroup>
+
+  <!-- MelonLoader References -->
+	<ItemGroup Condition="'$(Configuration)' == 'MELONLOADER'">
+		<Reference Include="MelonLoader">
+			<HintPath>References\Melonloader\MelonLoader.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppInterop.Common">
+			<HintPath>References\Melonloader\Il2CppInterop.Common.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppInterop.Runtime">
+			<HintPath>References\Melonloader\Il2CppInterop.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>References\Melonloader\Il2Cpp\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2Cppmscorlib">
+			<HintPath>References\Melonloader\Il2Cpp\Il2Cppmscorlib.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>References\Melonloader\Il2Cpp\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>References\Melonloader\Il2Cpp\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.Physics2DModule">
+			<HintPath>References\Melonloader\Il2Cpp\UnityEngine.Physics2DModule.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<!-- BepInEx References -->
+	<ItemGroup Condition="'$(Configuration)' == 'BEPINEX'">
+		<Reference Include="BepInEx.Core">
+			<HintPath>References\Bepinex\BepInEx.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.Unity.IL2CPP">
+			<HintPath>References\Bepinex\BepInEx.Unity.IL2CPP.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppInterop.Runtime">
+			<HintPath>References\Bepinex\Il2CppInterop.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>References\Bepinex\Il2Cpp\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2Cppmscorlib">
+			<HintPath>References\Bepinex\Il2Cpp\Il2Cppmscorlib.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>References\Bepinex\Il2Cpp\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>References\Bepinex\Il2Cpp\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.Physics2DModule">
+			<HintPath>References\Bepinex\Il2Cpp\UnityEngine.Physics2DModule.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>
