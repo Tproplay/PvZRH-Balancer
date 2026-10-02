@@ -8,7 +8,7 @@
     <Configurations>MELONLOADER;BEPINEX</Configurations>
   </PropertyGroup>
 
-  <!-- MelonLoader References -->
+    <!-- MelonLoader References -->
 	<ItemGroup Condition="'$(Configuration)' == 'MELONLOADER'">
 		<Reference Include="MelonLoader">
 			<HintPath>References\Melonloader\MelonLoader.dll</HintPath>
@@ -70,7 +70,9 @@
 		</Reference>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Patches\" />
+	  <Compile Remove="References\**" />
+	  <EmbeddedResource Remove="References\**" />
+	  <None Remove="References\**" />
 	</ItemGroup>
 
 </Project>
