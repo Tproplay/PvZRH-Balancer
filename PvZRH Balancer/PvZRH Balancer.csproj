@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -34,6 +34,9 @@
 		<Reference Include="UnityEngine.Physics2DModule">
 			<HintPath>References\Melonloader\Il2Cpp\UnityEngine.Physics2DModule.dll</HintPath>
 		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>References\Melonloader\0Harmony.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<!-- BepInEx References -->
@@ -62,6 +65,12 @@
 		<Reference Include="UnityEngine.Physics2DModule">
 			<HintPath>References\Bepinex\Il2Cpp\UnityEngine.Physics2DModule.dll</HintPath>
 		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>References\Bepinex\0Harmony.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Patches\" />
 	</ItemGroup>
 
 </Project>
