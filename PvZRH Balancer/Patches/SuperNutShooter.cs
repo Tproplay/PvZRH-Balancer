@@ -16,25 +16,32 @@ namespace PvZRH_Balancer.Patches
     public static class SuperNutShooterPatch
     {
         /*
-         * We simply check if any of the parameters are greater than 50,
-         * then we simply increase its values to a high number so the
-         * game thinks this plant has reached the threashold
+         * Modify GetPlantData to return 100 attack damage for SuperNutShooter
+         * And return 5x damage for WallNut if its spawned while SuperNutShooter is shooting
          */
-        [HarmonyPatch(typeof(SuperNutShooter), nameof(SuperNutShooter.Awake))]
+        [HarmonyPatch(typeof(PlantDataManager), nameof(PlantDataManager.GetPlantData))]
         public static class SuperNutShooter_Awake
         {
-            [HarmonyPrefix]
-            public static void Prefix(SuperNutShooter __instance)
+            [HarmonyPostfix]
+            public static void Postfix(PlantType plantType, ref PlantDataManager.PlantData __result)
             {
-                __instance.attackDamage = 100;
+                if (plantType == PlantType.SuperNutShooter)
+                {
+                    __result.attackDamage = 100;
+                }
 
+                if (isShoot2)
+                {
+                    if (plantType == PlantType.BigWallNut)
+                    {
+                        PlantDataManager.PlantData plantData = new(__result);
+                        plantData.attackDamage = 3000;
+                        __result = plantData;
+                    }
+                }
             }
         }
 
-        /*
-         * For increasing the damage of spawned Big Wall-nut,
-         * We Postfix Big Wall-nut and multiply its damage 5 times
-         */
         [ThreadStatic] static bool isShoot2;
 
         [HarmonyPatch(typeof(SuperNutShooter), nameof(SuperNutShooter.Shoot2))]
@@ -50,19 +57,6 @@ namespace PvZRH_Balancer.Patches
             public static void Postfix()
             {
                 isShoot2 = false;
-            }
-        }
-
-        [HarmonyPatch(typeof(BigWallNut), nameof(BigWallNut.ModifyDamage))]
-        public static class BigWallNut_ModifyDamage
-        {
-
-            [HarmonyPostfix]
-            public static void Postfix(BigWallNut __instance)
-            {
-                if (!isShoot2) return;
-
-                __instance.damageAdder[PlantDamageAdder.Update] *= 5;
             }
         }
     }
