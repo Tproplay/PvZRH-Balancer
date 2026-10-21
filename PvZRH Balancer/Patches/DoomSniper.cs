@@ -16,9 +16,7 @@ namespace PvZRH_Balancer.Patches
     public static class DoomSniperPatch
     {
         /*
-         * We simply check if any of the parameters are greater than 50,
-         * then we simply increase its values to a high number so the
-         * game thinks this plant has reached the threashold
+         * We simply increase the number of charges you get
          */
         [HarmonyPatch(typeof(DoomSniper), nameof(DoomSniper.Shoot1))]
         public static class DoomSniper_Shoot1
@@ -26,9 +24,8 @@ namespace PvZRH_Balancer.Patches
             [HarmonyPrefix]
             public static void Prefix(DoomSniper __instance)
             {
-                if (__instance.craze >= 51) __instance.craze = 301;
-                if (__instance.onShootTimes >= 51) __instance.onShootTimes = 301;
-
+                __instance.craze += 1; // craze is frenzy charges count, it resets at 100 stacks
+                __instance.onShootTimes += 5; // doom charges, it doesn't resets
             }
         }
     }
