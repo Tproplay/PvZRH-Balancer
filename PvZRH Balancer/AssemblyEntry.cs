@@ -4,6 +4,7 @@ using PvZRH_Balancer;
 
 [assembly: MelonInfo(typeof(MelonLoaderEntry), "Pvz Fusion Balancer", "4.0", "Tproplay")]
 [assembly: MelonGame("LanPiaoPiao", "PlantsVsZombiesRH")]
+[assembly: HarmonyDontPatchAll]
 
 namespace PvZRH_Balancer;
 

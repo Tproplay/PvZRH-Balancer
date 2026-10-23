@@ -2,8 +2,8 @@
  * SuperNutShooter (1423) 
  * 
  * https://discord.com/channels/1529901206422425772/1554910835032334440/1555883120505397418
- * base damage: 30*6 -> 100*6
- * giant wallnuts 20 -> 100x base damage
+ * Base attack damage: 30*6 -> 100*6
+ * Spawned giant wallnuts 20 -> 100x base damage
  */
 
 using HarmonyLib;
@@ -15,48 +15,46 @@ namespace PvZRH_Balancer.Patches
 {
     public static class SuperNutShooterPatch
     {
-        /*
-         * Modify GetPlantData to return 100 attack damage for SuperNutShooter
-         * And return 5x damage for WallNut if its spawned while SuperNutShooter is shooting
-         */
-        [HarmonyPatch(typeof(PlantDataManager), nameof(PlantDataManager.GetPlantData))]
-        public static class SuperNutShooter_Awake
+        public static class MoreDamagePatch
         {
-            [HarmonyPostfix]
-            public static void Postfix(PlantType plantType, ref PlantDataManager.PlantData __result)
+            /*
+             * Modify GetPlantData to return 100 attack damage for SuperNutShooter
+             * And return 5x damage for WallNut if its spawned while SuperNutShooter is shooting
+             */
+            [HarmonyPatch(typeof(PlantDataManager), nameof(PlantDataManager.GetPlantData))]
+            public static class SuperNutShooter_Awake
             {
-                if (plantType == PlantType.SuperNutShooter)
+                [HarmonyPostfix]
+                public static void Postfix(PlantType plantType, ref PlantDataManager.PlantData __result)
                 {
-                    __result.attackDamage = 100;
-                }
-
-                if (isShoot2)
-                {
-                    if (plantType == PlantType.BigWallNut)
+                    if (plantType == PlantType.SuperNutShooter)
                     {
-                        PlantDataManager.PlantData plantData = new(__result);
-                        plantData.attackDamage = 3000;
-                        __result = plantData;
+                        __result.attackDamage = 100;
+                    }
+
+                    if (isShoot2)
+                    {
+                        if (plantType == PlantType.BigWallNut)
+                        {
+                            // We return a copy so that the orignal stats in PlantDataManager
+                            // remains unchanged
+                            PlantDataManager.PlantData plantData = new(__result);
+                            plantData.attackDamage = 3000;
+                            __result = plantData;
+                        }
                     }
                 }
             }
-        }
 
-        [ThreadStatic] static bool isShoot2;
+            // Check is SuperSunShooter is in Shoot2 phase
+            [ThreadStatic] static bool isShoot2;
 
-        [HarmonyPatch(typeof(SuperNutShooter), nameof(SuperNutShooter.Shoot2))]
-        public static class SuperNutShooter_Shoot2
-        {
-            [HarmonyPrefix]
-            public static void Prefix()
+            [HarmonyPatch(typeof(SuperNutShooter), nameof(SuperNutShooter.Shoot2))]
+            public static class SuperNutShooter_Shoot2
             {
-                isShoot2 = true;
-            }
+                [HarmonyPrefix] public static void Prefix() => isShoot2 = true;
 
-            [HarmonyPostfix]
-            public static void Postfix()
-            {
-                isShoot2 = false;
+                [HarmonyPostfix] public static void Postfix() => isShoot2 = false;
             }
         }
     }

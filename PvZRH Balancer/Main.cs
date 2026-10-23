@@ -14,22 +14,22 @@ public class Main
     {
         Instance = new Main();
 
-#if MELONLOADER
-        //if (patchInfo.HasFailures)
-        //{
-        //    MelonLogger.Warning($"[Harmony] {patchInfo.FailCount} patch classes failed to apply:");
-        //    for (int i = 0; i < patchInfo.Failures.Count; i++)
-        //    {
-        //        var failure = patchInfo.Failures[i];
-        //        MelonLogger.Error($"[Harmony] -> Failure #{i + 1} on '{failure.ClassName}':\nException: {failure.Exception.GetType().Name} - {failure.Exception.Message}\nStack: {failure.Exception.StackTrace}");
-        //    }
-        //}
-#elif BEPINEX
-
         HarmonyInstance = new HarmonyLib.Harmony("com.tproplay.balancer");
+
         Assembly currentAssembly = typeof(Main).Assembly;
 
         HarmonyPatchInfo patchInfo = HarmonyManager.HarmonyPatchAll(currentAssembly, HarmonyInstance);
+
+#if MELONLOADER
+        if (patchInfo.HasFailures)
+        {
+            MelonLogger.Warning($"[Harmony] {patchInfo.FailCount} patch classes failed to apply:");
+            for (int i = 0; i < patchInfo.Failures.Count; i++)
+            {
+                var failure = patchInfo.Failures[i];
+                MelonLogger.Error($"[Harmony] -> Failure #{i + 1} on '{failure.ClassName}':\nException: {failure.Exception.GetType().Name} - {failure.Exception.Message}\nStack: {failure.Exception.StackTrace}");
+            }
+        }
 #endif
     }
 

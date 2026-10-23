@@ -15,17 +15,21 @@ namespace PvZRH_Balancer.Patches
 {
     public static class DoomSniperPatch
     {
-        /*
-         * We simply increase the number of charges you get
-         */
-        [HarmonyPatch(typeof(DoomSniper), nameof(DoomSniper.Shoot1))]
-        public static class DoomSniper_Shoot1
+        public static class LessChargeThresholdPatch
         {
-            [HarmonyPrefix]
-            public static void Prefix(DoomSniper __instance)
+            /*
+             * We simply increase the number of charges you get to make it equivalant to
+             * having the threshold of 50 charges
+             */
+            [HarmonyPatch(typeof(DoomSniper), nameof(DoomSniper.Shoot1))]
+            public static class DoomSniper_Shoot1
             {
-                __instance.craze += 1; // craze is frenzy charges count, it resets at 100 stacks
-                __instance.onShootTimes += 5; // doom charges, it doesn't resets
+                [HarmonyPrefix]
+                public static void Prefix(DoomSniper __instance)
+                {
+                    __instance.craze += 1; // craze is frenzy charges count, it resets at 100 stacks
+                    __instance.onShootTimes += 5; // doom charges, it doesn't resets
+                }
             }
         }
     }
