@@ -23,7 +23,7 @@ namespace PvZRH_Balancer.Patches
                 if (bullet == null) return;
 
                 // Calculate the damage bonus to add
-                int BonusDamage = Math.Max(0, __instance.lightLevel * 100 - 500);
+                int BonusDamage = Math.Max(0, __instance.currentLightLevel * 100 - 500);
                 int multiplier = Lawnf.TravelUltimate((UltiBuff)22) ? 3 : 1;
 
                 // Add the damage
